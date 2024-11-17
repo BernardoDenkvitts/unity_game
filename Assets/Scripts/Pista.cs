@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Pista : MonoBehaviour
 {
-
+    // 334.9f é a posição Z onde começa a 2° pista
+    // que é o tamanho da nossa pista
+    public float pistaLength = 334.9f;
     public GameObject[] obstacles;
 
     public Vector2 numberOfObstacles;
@@ -29,16 +31,13 @@ public class Pista : MonoBehaviour
 
     void PositionateObstacle()
     {
-        
         GameObject obstacle = obstacles[Random.Range(0, obstacles.Length)];
         for (int i = 0; i < newObstacles.Count; i++)
         {
-            // 334.9f é o tamanho da pista
-
             // Define a posição mínima e máxima para posicionar o obstáculo no eixo Z
             // Serve para distribuir os obstáculos pela pista
             // + 6 evita que objetos nasçam muito próximo um do outro
-            float zMinPosition = ((334.9f / newObstacles.Count) * 2) * i + 6;
+            float zMinPosition = ((pistaLength / newObstacles.Count) * 2) * i + 6;
             float zMaxPosition = zMinPosition + 1;
             
             Vector3 newPosition = new Vector3(0, 0, Random.Range(zMinPosition, zMaxPosition));
@@ -50,7 +49,17 @@ public class Pista : MonoBehaviour
             newObstacles[i].SetActive(true);
             
             Debug.Log($"Obstáculo {i} posicionado em {newPosition}");
-            
         }
     }
+
+    // Funcao para reposicionar a pista
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            transform.position = new Vector3(0, 0, transform.position.z + 334.9f * 2);
+            Invoke("PositionateObstacle", 4f);
+        }
+    }
+    
 }
