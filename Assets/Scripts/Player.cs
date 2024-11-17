@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -14,6 +15,13 @@ public class Player : MonoBehaviour
     // Usado para calcular a distancia percorrida no salto
     private float jumpStart;
     private float slideStart;
+    private float minSpeed = 10f;
+    private float maxSpeed = 30f;
+    private int maxLife = 3;
+    private int currLife;
+    private bool invincible = false;
+    public float invincibleTime;
+    public GameObject model;
     
     private Animator animator;
     private Rigidbody rb;
@@ -26,6 +34,8 @@ public class Player : MonoBehaviour
     
     private bool jumping = false;
     private bool sliding = false;
+    private static int blinkingValue;
+    
     
     void Start()
     {
@@ -33,6 +43,12 @@ public class Player : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         boxCollider = GetComponent<BoxCollider>();
         boxColliderSize = boxCollider.size;
+        currLife = maxLife;
+        speed = minSpeed;
+        
+        // Ja vem definido no shader
+        blinkingValue = Shader.PropertyToID("_BlinkingValue");
+        
         // Necessario por causa da forma que as animacoes foram feitas
         animator.Play("runStart");
     }
@@ -133,4 +149,69 @@ public class Player : MonoBehaviour
             sliding = true;
         }
     }
+    
+    // Determina se o player atingiu um obstaculo
+    private void OnTriggerEnter(Collider other)
+    {
+        if (invincible) 
+            return;
+        
+        if (other.CompareTag("Obstacle"))
+        {
+            currLife--;
+            animator.SetTrigger("Hit");
+            speed = 0;
+            if (currLife <= 0)
+            {
+                currLife = maxLife;
+            }
+            else
+            {
+                StartCoroutine(Blinking(invincibleTime));
+            }
+        }
+    }
+
+    // Coroutine que gerencia o efeito de "piscar" do player quando ele atinge um obstaculo
+    IEnumerator Blinking(float time)
+    {
+        invincible = true;
+        float timer = 0;
+        // Controla o estado atual do "piscar"
+        float currentBlink = 1f;
+        float lastBlink = 0;
+        float blinkPeriod = 0.1f;
+        // Indica se o player está visível ou não
+        bool enabled = false;
+        
+        // Espera 1 segundo antes de iniciar o efeito de "piscar"
+        yield return new WaitForSeconds(1f);
+        
+        speed = minSpeed;
+        
+        while(timer < time && invincible)
+        {
+            // Ativa ou desativa o player (faz ele piscar)
+            model.SetActive(enabled);
+            
+            // Aguarda até o próximo frame antes de continuar a execução do loop
+            yield return null;
+            
+            timer += Time.deltaTime;
+            lastBlink += Time.deltaTime;
+            
+            // Verifica se é hora de trocar o estado de piscada
+            if(blinkPeriod < lastBlink)
+            {
+                lastBlink = 0;
+                currentBlink = 1f - currentBlink;
+                enabled = !enabled;
+            }
+        }
+        
+        // Deixa o player visivel quando o efeito de piscar acaba
+        model.SetActive(true);
+        invincible = false;
+    }
+	
 }
