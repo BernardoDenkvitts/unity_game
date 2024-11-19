@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
     private bool sliding = false;
     private static int blinkingValue;
     
+    private UIManager uiManager;
     
     void Start()
     {
@@ -45,12 +46,15 @@ public class Player : MonoBehaviour
         boxColliderSize = boxCollider.size;
         currLife = maxLife;
         speed = minSpeed;
+        uiManager = FindObjectOfType<UIManager>();
         
         // Ja vem definido no shader
         blinkingValue = Shader.PropertyToID("_BlinkingValue");
         
         // Necessario por causa da forma que as animacoes foram feitas
         animator.Play("runStart");
+        
+        
     }
     
     void Update()
@@ -159,6 +163,7 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             currLife--;
+            uiManager.UpdateLives(currLife);
             animator.SetTrigger("Hit");
             speed = 0;
             if (currLife <= 0)
