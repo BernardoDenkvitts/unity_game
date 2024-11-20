@@ -56,6 +56,13 @@ public class Pista : MonoBehaviour
             // Ativa o obstáculo
             newObstacles[i].SetActive(true);
             
+            // Apenas o lixo pode aparecer nas 3 lanes diferentes
+            if (newObstacles[i].GetComponent<ChangeLane>() != null)
+            {
+                // Faz o objeto aparecer em uma das 3 lanes
+                newObstacles[i].GetComponent<ChangeLane>().PositionLane();
+            } 
+            
             Debug.Log($"Obstáculo {i} posicionado em {newPosition}");
         }
     }
@@ -70,8 +77,10 @@ public class Pista : MonoBehaviour
             float randomZPos = Random.Range(minZPosition, maxZPosition);
             newCoins[i].transform.localPosition = new Vector3(transform.position.x, transform.position.y, randomZPos);
             newCoins[i].SetActive(true);
+            // Faz o objeto aparecer em uma das 3 lanes
+            newCoins[i].GetComponent<ChangeLane>().PositionLane();
             
-            // Distancia das moedas vai ser de pelo menos de 1 a Z da moeda anterior
+            // Distancia das moedas vai ser de pelo menos de 8 a Z da moeda anterior
             minZPosition = randomZPos + 8;
         }
     }
