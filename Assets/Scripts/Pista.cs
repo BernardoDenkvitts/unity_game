@@ -8,16 +8,17 @@ public class Pista : MonoBehaviour
     // que é o tamanho da nossa pista
     public float pistaLength = 334.9f;
     public GameObject[] obstacles;
-
     public Vector2 numberOfObstacles;
-    
+    public GameObject coin;
+    public Vector2 numOfCoins;
     public List<GameObject> newObstacles;
+    public List<GameObject> newCoins;
     
     void Start()
     {
         // Gera um número aleatório de obstáculos dentro do intervalo definido
         int newNumberOfObstacles = (int)Random.Range(numberOfObstacles.x, numberOfObstacles.y);
-        Debug.Log($"Número de obstáculos a serem gerados: {newNumberOfObstacles}");
+        int newNumberOfCoins = (int)Random.Range(numOfCoins.x, numOfCoins.y);
         
         // Instancia o número determinado de obstáculos e os adiciona à lista newObstacles
         for (int i = 0; i < newNumberOfObstacles; i++)
@@ -25,8 +26,15 @@ public class Pista : MonoBehaviour
             newObstacles.Add(Instantiate(obstacles[Random.Range(0, obstacles.Length)], transform));
             newObstacles[i].SetActive(false);
         }
+
+        for (int i = 0; i < newNumberOfCoins; i++)
+        {
+            newCoins.Add(Instantiate(coin, transform));
+            newCoins[i].SetActive(false);
+        }
         
         PositionateObstacle();
+        PositionateCoins();
     }
 
     void PositionateObstacle()
@@ -52,13 +60,30 @@ public class Pista : MonoBehaviour
         }
     }
 
+    void PositionateCoins()
+    {
+        // Evita que alguma moeda spawne onde o player começa
+        float minZPosition = 10f;
+        for (int i = 0; i < newCoins.Count; i++)
+        {
+            float maxZPosition = minZPosition + 5f;
+            float randomZPos = Random.Range(minZPosition, maxZPosition);
+            newCoins[i].transform.localPosition = new Vector3(transform.position.x, transform.position.y, randomZPos);
+            newCoins[i].SetActive(true);
+            
+            // Distancia das moedas vai ser de pelo menos de 1 a Z da moeda anterior
+            minZPosition = randomZPos + 8;
+        }
+    }
+
     // Funcao para reposicionar a pista
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             transform.position = new Vector3(0, 0, transform.position.z + 334.9f * 2);
-            Invoke("PositionateObstacle", 4f);
+            PositionateObstacle();
+            PositionateCoins();
         }
     }
     

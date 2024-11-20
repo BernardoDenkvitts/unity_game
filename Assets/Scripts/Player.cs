@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     private static int blinkingValue;
     
     private UIManager uiManager;
+    private int coins;
     
     void Start()
     {
@@ -53,8 +54,6 @@ public class Player : MonoBehaviour
         
         // Necessario por causa da forma que as animacoes foram feitas
         animator.Play("runStart");
-        
-        
     }
     
     void Update()
@@ -154,9 +153,17 @@ public class Player : MonoBehaviour
         }
     }
     
-    // Determina se o player atingiu um obstaculo
+    // Determina se o player atingiu um obstaculo ou pegou uma moeda
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("moeda"))
+        {
+            coins++;
+            uiManager.UpdateCoins(coins);
+            // desativa a moeda
+            other.gameObject.SetActive(false);
+        }
+        
         if (invincible) 
             return;
         

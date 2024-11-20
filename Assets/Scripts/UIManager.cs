@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Image[] coracoes;
+    public Text coinText;
 
     public void UpdateLives(int vidas)
     {
@@ -20,5 +21,10 @@ public class UIManager : MonoBehaviour
                 coracoes[i].color = Color.black;
             }
         }
+    }
+
+    public void UpdateCoins(int coins)
+    {
+        coinText.text = coins.ToString();
     }
 }
