@@ -175,7 +175,10 @@ public class Player : MonoBehaviour
             speed = 0;
             if (currLife <= 0)
             {
-                currLife = maxLife;
+                speed = 0;
+                animator.SetBool("Dead", true);
+                uiManager.gameOverPanel.SetActive(true);
+                Invoke("CallMenu", 2f);
             }
             else
             {
@@ -224,6 +227,11 @@ public class Player : MonoBehaviour
         // Deixa o player visivel quando o efeito de piscar acaba
         model.SetActive(true);
         invincible = false;
+    }
+
+    void CallMenu()
+    {
+        GameManager.gm.EndRun();
     }
 	
 }
