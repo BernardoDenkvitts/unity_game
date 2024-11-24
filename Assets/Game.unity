@@ -3787,6 +3787,7 @@ MonoBehaviour:
   - {fileID: 557050610}
   coinText: {fileID: 1319961165}
   gameOverPanel: {fileID: 1245572929}
+  scoreText: {fileID: 31108781}
 --- !u!114 &2082296859
 MonoBehaviour:
   m_ObjectHideFlags: 0
