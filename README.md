@@ -7,11 +7,15 @@ Este projeto é um endless runner desenvolvido como parte da disciplina de Compu
 🎮 Como Jogar
 
 Movimentos do Personagem:
+
 Seta para cima: Pular
+
 Seta para baixo: Abaixar
+
 Setas esquerda/direita: Mover lateralmente
+
 Objetivo:
-Evitar os obstáculos no caminho.
-Coletar moedas e bônus para aumentar a pontuação.
+Evitar os obstáculos no caminho. Coletar moedas e bônus para aumentar a pontuação.
+
 Fim de Jogo:
 O jogo termina quando o personagem colidir com os obstáculos e zerar seus contadores de vida.
