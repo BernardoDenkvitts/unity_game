@@ -46,6 +46,12 @@ public class Pista : MonoBehaviour
             // Serve para distribuir os obstáculos pela pista
             // + 6 evita que objetos nasçam muito próximo um do outro
             float zMinPosition = ((pistaLength / newObstacles.Count) * 2) * i + 6;
+
+            if (i == 0)
+            {
+                zMinPosition += 10; // Adiciona 10 unidades extras para o primeiro obstáculo
+            }
+
             float zMaxPosition = zMinPosition + 1;
             
             Vector3 newPosition = new Vector3(0, 0, Random.Range(zMinPosition, zMaxPosition));
@@ -90,7 +96,8 @@ public class Pista : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            transform.position = new Vector3(0, 0, transform.position.z + 334.9f * 2);
+            other.GetComponent<Player>().IncreaseSpeed();
+            transform.position = new Vector3(0, 0, transform.position.z + 297 * 2);
             PositionateObstacle();
             PositionateCoins();
         }
