@@ -237,5 +237,14 @@ public class Player : MonoBehaviour
     {
         GameManager.gm.EndRun();
     }
+
+    public void IncreaseSpeed()
+    {
+        speed *= 1.30f;
+        if(speed >= maxSpeed)
+        {
+            speed = maxSpeed;
+        }
+    }
 	
 }
