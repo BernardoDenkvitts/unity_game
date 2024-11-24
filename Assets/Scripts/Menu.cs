@@ -20,4 +20,9 @@ public class Menu : MonoBehaviour
     {
         GameManager.gm.StartRun();
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }
