@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
     
     private UIManager uiManager;
     private int coins;
+    private float score;
     
     void Start()
     {
@@ -58,6 +59,9 @@ public class Player : MonoBehaviour
     
     void Update()
     {
+        score += Time.deltaTime * speed;
+        uiManager.UpdateScore((int)score);
+
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             ChangeLane(-1);
