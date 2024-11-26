@@ -46,6 +46,7 @@ public class Pista : MonoBehaviour
         {
             // Define a posição mínima e máxima para posicionar o obstáculo no eixo Z
             // Serve para distribuir os obstáculos pela pista
+            // multiplicando pelo i evita que os obstaculos nasçam todos no mesmo lugar
             // + 6 evita que objetos nasçam muito próximo um do outro
             float zMinPosition = ((pistaLength / newObstacles.Count) * 2) * i + 6;
 

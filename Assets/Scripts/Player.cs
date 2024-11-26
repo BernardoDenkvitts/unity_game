@@ -209,8 +209,7 @@ public class Player : MonoBehaviour
         bool enabled = false;
         
         // Espera 1 segundo antes de iniciar o efeito de "piscar"
-        // Essa espera é necessário por causa da animação que ocorre quando o player
-        // bate
+        // Essa espera é necessário por causa da animação que ocorre quando o player bate
         yield return new WaitForSeconds(1f);
         
         speed = minSpeed;
@@ -222,6 +221,7 @@ public class Player : MonoBehaviour
             model.SetActive(enabled);
             
             // Aguarda até o próximo frame antes de continuar a execução do loop
+            // Sem esse return o efeito de piscar nao funciona, serve para sincroniza o efeito de piscar com os frames do jogo
             yield return null;
             
             timer += Time.deltaTime;

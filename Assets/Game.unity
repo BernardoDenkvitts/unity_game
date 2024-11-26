@@ -2527,6 +2527,10 @@ PrefabInstance:
       value: SuburbsHouse01 (2)
       objectReference: {fileID: 0}
     - target: {fileID: 4000010558597330, guid: efcbfaf146228ad40ae6c878d7806d64, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0461667
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010558597330, guid: efcbfaf146228ad40ae6c878d7806d64, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
@@ -2536,7 +2540,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010558597330, guid: efcbfaf146228ad40ae6c878d7806d64, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 305.16
+      value: 304.9522
       objectReference: {fileID: 0}
     - target: {fileID: 4000010558597330, guid: efcbfaf146228ad40ae6c878d7806d64, type: 3}
       propertyPath: m_LocalRotation.w
