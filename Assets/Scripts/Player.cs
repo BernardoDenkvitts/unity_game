@@ -81,8 +81,7 @@ public class Player : MonoBehaviour
 
         if (jumping)
         {
-            // Controla proporcao do pulo
-            float proporcao = (transform.position.z - jumpStart) / jumpLength;
+            float proporcao = calculaProporcaoMovimento(jumpStart, jumpLength);
             if (proporcao >= 1f)
             {
                 jumping = false;
@@ -102,8 +101,7 @@ public class Player : MonoBehaviour
 
         if (sliding)
         {
-            float proporcao = (transform.position.z - slideStart) / slideLength;
-            if (proporcao >= 1f)
+            if (calculaProporcaoMovimento(slideStart, slideLength) >= 1f)
             {
                 animator.SetBool("Sliding", false);
                 sliding = false;
@@ -113,6 +111,14 @@ public class Player : MonoBehaviour
         
         Vector3 targetPosition = new Vector3(verticalTargetPosition.x, verticalTargetPosition.y, transform.position.z);
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, laneSpeed * Time.deltaTime);
+    }
+    
+    // Controla proporcao do movimento (pulo ou slide)
+    // a proporcao varia de 0 a 1 e representa o progresso do movimento
+    // se for 1 encerramos o movimento
+    private float calculaProporcaoMovimento(float inicioMovimento, float tamanhoMovimento)
+    {
+        return (transform.position.z - inicioMovimento) / tamanhoMovimento;
     }
     
     // Faz o player andar para frente infinitamente
@@ -204,6 +210,8 @@ public class Player : MonoBehaviour
         bool enabled = false;
         
         // Espera 1 segundo antes de iniciar o efeito de "piscar"
+        // Essa espera é necessário por causa da animação que ocorre quando o player
+        // bate
         yield return new WaitForSeconds(1f);
         
         speed = minSpeed;
