@@ -23,6 +23,7 @@ public class Pista : MonoBehaviour
         // Instancia o número determinado de obstáculos e os adiciona à lista newObstacles
         for (int i = 0; i < newNumberOfObstacles; i++)
         {
+            // Instancia um dos obstaculos que estao no array de forma aleatoria
             newObstacles.Add(Instantiate(obstacles[Random.Range(0, obstacles.Length)], transform));
             newObstacles[i].SetActive(false);
         }
@@ -39,6 +40,7 @@ public class Pista : MonoBehaviour
 
     void PositionateObstacle()
     {
+        // Retorna um dos objetos disponiveis de forma aleatoria
         GameObject obstacle = obstacles[Random.Range(0, obstacles.Length)];
         for (int i = 0; i < newObstacles.Count; i++)
         {
@@ -97,7 +99,8 @@ public class Pista : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Player>().IncreaseSpeed();
-            transform.position = new Vector3(0, 0, transform.position.z + 297 * 2);
+            // Reposiciona a pista, multiplica por 2 pois sao 2 pistas
+            transform.position = new Vector3(0, 0, transform.position.z + pistaLength * 2);
             PositionateObstacle();
             PositionateCoins();
         }
