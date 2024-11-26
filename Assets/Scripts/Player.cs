@@ -34,7 +34,6 @@ public class Player : MonoBehaviour
     
     private bool jumping = false;
     private bool sliding = false;
-    private static int blinkingValue;
     
     private UIManager uiManager;
     private int coins;
@@ -49,9 +48,6 @@ public class Player : MonoBehaviour
         currLife = maxLife;
         speed = minSpeed;
         uiManager = FindObjectOfType<UIManager>();
-        
-        // Ja vem definido no shader
-        blinkingValue = Shader.PropertyToID("_BlinkingValue");
         
         // Necessario por causa da forma que as animacoes foram feitas
         animator.Play("runStart");
@@ -198,6 +194,8 @@ public class Player : MonoBehaviour
     }
 
     // Coroutine que gerencia o efeito de "piscar" do player quando ele atinge um obstaculo
+    // utiliza courotine para que o efeito aconteça ao longo do tempo sem interromper
+    // o jogo
     IEnumerator Blinking(float time)
     {
         invincible = true;
@@ -205,6 +203,7 @@ public class Player : MonoBehaviour
         // Controla o estado atual do "piscar"
         float currentBlink = 1f;
         float lastBlink = 0;
+        // Efeito de piscar é ativado a cada 0,1 segundos
         float blinkPeriod = 0.1f;
         // Indica se o player está visível ou não
         bool enabled = false;
@@ -216,6 +215,7 @@ public class Player : MonoBehaviour
         
         speed = minSpeed;
         
+        // Loop de piscar
         while(timer < time && invincible)
         {
             // Ativa ou desativa o player (faz ele piscar)
@@ -227,10 +227,12 @@ public class Player : MonoBehaviour
             timer += Time.deltaTime;
             lastBlink += Time.deltaTime;
             
-            // Verifica se é hora de trocar o estado de piscada
+            // Verifica se ja passou 0,1 segundos
+            // Se sim, troca o estado de piscada
             if(blinkPeriod < lastBlink)
             {
                 lastBlink = 0;
+                // Altera entre 0.0 e 1.0
                 currentBlink = 1f - currentBlink;
                 enabled = !enabled;
             }
